@@ -1,0 +1,143 @@
+:root {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+}
+
+body {
+  margin: 0;
+}
+
+.page {
+  min-height: 100vh;
+  background-color: #FFBDDF; 
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #4b2142; 
+  color: #ffffff;
+  padding: 12px 40px;
+}
+
+.topbar-left {
+  font-size: 26px;
+  font-weight: 600;
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.topbar-link {
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.topbar-create {
+  border-radius: 20px;
+  border: none;
+  padding: 8px 18px;
+  font-size: 15px;
+  background-color: #f3c5ff;
+  color: #4b2142;
+  cursor: pointer;
+}
+
+.topbar-logout {
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.topbar-user-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.topbar-user-circle {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+}
+
+.content {
+  padding: 30px 60px 60px;
+}
+
+.title {
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 40px;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.about-container {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+  align-items: center;
+}
+
+.text-block {
+  flex: 1;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.placeholder {
+  width: 220px;
+  height: 150px;
+  border-radius: 10px;
+  border: 2px dashed #aaaaaa;
+  background-color: #e8e8e8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: #555555;
+}
+
+.placeholder-right {
+  order: 1;
+}
+
+.placeholder-left {
+  order: 0;
+}
+
+@media (max-width: 768px) {
+  .content {
+    padding: 20px;
+  }
+
+  .row {
+    flex-direction: column;
+  }
+
+  .placeholder-right,
+  .placeholder-left {
+    order: 0;
+  }
+}
