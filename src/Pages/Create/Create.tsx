@@ -1,50 +1,50 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import "./CreateContainerPage.css";
-import GlabButton from "../../components/glab/GlabButton";
+import React, { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
+import "./CreateContainerPage.css"
+import GlabButton from "../../components/glab/GlabButton"
 
 
 type User = {
-  id: number;
-  name: string;
-  email: string;
-};
+  id: number
+  name: string
+  email: string
+}
 
-const API_BASE = "http://localhost:8080";
+const API_BASE = "http://localhost:8080"
 
 export default function CreateContainerPage() {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User | null>(null)
 
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [imageURL, setImageURL] = useState("");
+  const [name, setName] = useState("")
+  const [description, setDescription] = useState("")
+  const [imageURL, setImageURL] = useState("")
 
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    const raw = localStorage.getItem("user");
-    setUser(raw ? JSON.parse(raw) : null);
-  }, []);
+    const raw = localStorage.getItem("user")
+    setUser(raw ? JSON.parse(raw) : null)
+  }, [])
 
-  const onCancel = () => navigate(-1);
+  const onCancel = () => navigate(-1)
 
   const onCreate = async () => {
     if (!user) {
-      navigate("/login");
-      return;
+      navigate("/login")
+      return
     }
 
     if (!name.trim()) {
-      setError("Name ist erforderlich");
-      return;
+      setError("Name ist erforderlich")
+      return
     }
 
     try {
-      setLoading(true);
-      setError(null);
+      setLoading(true)
+      setError(null)
 
       const res = await fetch(`${API_BASE}/containers`, {
         method: "POST",
@@ -56,20 +56,20 @@ export default function CreateContainerPage() {
           owner: user.id,
           currentBid: null,
         }),
-      });
+      })
 
       if (!res.ok) {
-        const msg = await res.text().catch(() => "");
-        throw new Error(msg || `Create failed (${res.status})`);
+        const msg = await res.text().catch(() => "")
+        throw new Error(msg || `Create failed (${res.status})`)
       }
 
-      navigate(-1);
+      navigate(-1)
     } catch (e: any) {
-      setError(e?.message ?? "Unknown error");
+      setError(e?.message ?? "Unknown error")
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   return (
     <div className="create-page">
@@ -128,5 +128,5 @@ export default function CreateContainerPage() {
         )}
       </div>
     </div>
-  );
+  )
 }

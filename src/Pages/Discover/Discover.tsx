@@ -1,87 +1,87 @@
-import { useEffect, useMemo, useRef, useState } from "react";
-import { Search } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-import "./Discover.css";
+import { useEffect, useMemo, useRef, useState } from "react"
+import { Search } from "lucide-react"
+import { useNavigate } from "react-router-dom"
+import "./Discover.css"
 
 type Container = {
-  id: number;
-  name: string;
-  description?: string | null;
-  imageURL?: string | null;
-  owner: number;
-  currentBid?: number | null; 
-};
+  id: number
+  name: string
+  description?: string | null
+  imageURL?: string | null
+  owner: number
+  currentBid?: number | null 
+}
 
 type Bid = {
-  id: number;
-  containerId: number;
-  userId: number;
-  value: number; 
-};
+  id: number
+  containerId: number
+  userId: number
+  value: number 
+}
 
-const API_BASE = "http://localhost:8080";
+const API_BASE = "http://localhost:8080"
 const ONLINE_PLACEHOLDER =
-  "https://via.placeholder.com/400x300.png?text=No+Image";
+  "https://via.placeholder.com/400x300.png?text=No+Image"
 
 export default function DiscoverPage() {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
-  const [query, setQuery] = useState<string>("");
-  const [items, setItems] = useState<Container[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-  const [favorites, setFavorites] = useState<Record<number, boolean>>({});
+  const [query, setQuery] = useState<string>("")
+  const [items, setItems] = useState<Container[]>([])
+  const [loading, setLoading] = useState<boolean>(true)
+  const [error, setError] = useState<string | null>(null)
+  const [favorites, setFavorites] = useState<Record<number, boolean>>({})
 
-  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const [debouncedQuery, setDebouncedQuery] = useState<string>("");
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const [debouncedQuery, setDebouncedQuery] = useState<string>("")
 
   useEffect(() => {
-    if (debounceRef.current) clearTimeout(debounceRef.current);
-    debounceRef.current = setTimeout(() => setDebouncedQuery(query.trim()), 300);
+    if (debounceRef.current) clearTimeout(debounceRef.current)
+    debounceRef.current = setTimeout(() => setDebouncedQuery(query.trim()), 300)
     return () => {
-      if (debounceRef.current) clearTimeout(debounceRef.current);
-    };
-  }, [query]);
+      if (debounceRef.current) clearTimeout(debounceRef.current)
+    }
+  }, [query])
 
   const fetchContainers = async () => {
     try {
-      setLoading(true);
-      setError(null);
+      setLoading(true)
+      setError(null)
 
-      const res = await fetch(`${API_BASE}/containers`);
-      if (!res.ok) throw new Error(`Fetch failed (${res.status})`);
-      const data = (await res.json()) as Container[];
+      const res = await fetch(`${API_BASE}/containers`)
+      if (!res.ok) throw new Error(`Fetch failed (${res.status})`)
+      const data = (await res.json()) as Container[]
 
-      setItems(Array.isArray(data) ? data : []);
+      setItems(Array.isArray(data) ? data : [])
     } catch (e: any) {
-      setItems([]);
-      setError(e?.message ?? "Unknown error");
+      setItems([])
+      setError(e?.message ?? "Unknown error")
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   useEffect(() => {
-    fetchContainers();
-  }, []);
+    fetchContainers()
+  }, [])
 
   const filtered = useMemo(() => {
-    if (!debouncedQuery) return items;
-    const q = debouncedQuery.toLowerCase();
+    if (!debouncedQuery) return items
+    const q = debouncedQuery.toLowerCase()
     return items.filter((c) => {
-      const name = (c.name ?? "").toLowerCase();
-      const desc = (c.description ?? "").toLowerCase();
-      return name.includes(q) || desc.includes(q);
-    });
-  }, [items, debouncedQuery]);
+      const name = (c.name ?? "").toLowerCase()
+      const desc = (c.description ?? "").toLowerCase()
+      return name.includes(q) || desc.includes(q)
+    })
+  }, [items, debouncedQuery])
 
   const toggleFavorite = (id: number) => {
-    setFavorites((prev) => ({ ...prev, [id]: !prev[id] }));
-  };
+    setFavorites((prev) => ({ ...prev, [id]: !prev[id] }))
+  }
 
   const goToDetails = (id: number) => {
-    navigate(`/containers/${id}`);
-  };
+    navigate(`/containers/${id}`)
+  }
 
   return (
     <div className="discover-screen">
@@ -128,7 +128,7 @@ export default function DiscoverPage() {
         </div>
       )}
     </div>
-  );
+  )
 }
 
 function ContainerCard({
@@ -137,33 +137,33 @@ function ContainerCard({
   onToggleFav,
   onOpen,
 }: {
-  item: Container;
-  isFav: boolean;
-  onToggleFav: () => void;
-  onOpen: () => void;
+  item: Container
+  isFav: boolean
+  onToggleFav: () => void
+  onOpen: () => void
 }) {
-  const [imgSrc, setImgSrc] = useState(item.imageURL || ONLINE_PLACEHOLDER);
+  const [imgSrc, setImgSrc] = useState(item.imageURL || ONLINE_PLACEHOLDER)
 
-  const [bidValue, setBidValue] = useState<number | null>(null);
+  const [bidValue, setBidValue] = useState<number | null>(null)
 
   useEffect(() => {
-    setImgSrc(item.imageURL || ONLINE_PLACEHOLDER);
-  }, [item.imageURL]);
+    setImgSrc(item.imageURL || ONLINE_PLACEHOLDER)
+  }, [item.imageURL])
 
   useEffect(() => {
     if (!item.currentBid) {
-      setBidValue(null);
-      return;
+      setBidValue(null)
+      return
     }
 
     fetch(`${API_BASE}/bids/${item.currentBid}`)
       .then((res) => {
-        if (!res.ok) throw new Error("Bid fetch failed");
-        return res.json() as Promise<Bid>;
+        if (!res.ok) throw new Error("Bid fetch failed")
+        return res.json() as Promise<Bid>
       })
       .then((bid) => setBidValue(bid.value))
-      .catch(() => setBidValue(null));
-  }, [item.currentBid]);
+      .catch(() => setBidValue(null))
+  }, [item.currentBid])
 
   return (
     <div
@@ -172,7 +172,7 @@ function ContainerCard({
       tabIndex={0}
       onClick={onOpen}
       onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") onOpen();
+        if (e.key === "Enter" || e.key === " ") onOpen()
       }}
     >
       <div className="left">
@@ -193,8 +193,8 @@ function ContainerCard({
         <button
           className="heart-btn"
           onClick={(e) => {
-            e.stopPropagation();
-            onToggleFav();
+            e.stopPropagation()
+            onToggleFav()
           }}
           aria-label="favorite"
         >
@@ -210,7 +210,7 @@ function ContainerCard({
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 function SkeletonCard() {
@@ -230,5 +230,5 @@ function SkeletonCard() {
         <div className="skel-line w55" />
       </div>
     </div>
-  );
+  )
 }

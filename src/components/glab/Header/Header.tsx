@@ -1,48 +1,48 @@
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { CircleUser, Circle } from "lucide-react";
-import { useEffect, useState } from "react";
-import "./Header.css";
+import { Link, useLocation, useNavigate } from "react-router-dom"
+import { CircleUser, Circle } from "lucide-react"
+import { useEffect, useState } from "react"
+import "./Header.css"
 
 type User = {
-  id: number;
-  name: string;
-  email: string;
-};
+  id: number
+  name: string
+  email: string
+}
 
-const LS_USER_KEY = "user";
+const LS_USER_KEY = "user"
 
 function Header() {
-  const navigate = useNavigate();
-  const location = useLocation();
+  const navigate = useNavigate()
+  const location = useLocation()
 
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User | null>(null)
 
   const readUser = () => {
-    const raw = localStorage.getItem(LS_USER_KEY);
-    setUser(raw ? (JSON.parse(raw) as User) : null);
-  };
+    const raw = localStorage.getItem(LS_USER_KEY)
+    setUser(raw ? (JSON.parse(raw) as User) : null)
+  }
 
 
   useEffect(() => {
-    readUser();
+    readUser()
 
-  }, [location.pathname]);
+  }, [location.pathname])
 
 
   useEffect(() => {
     const onStorage = (e: StorageEvent) => {
-      if (e.key === LS_USER_KEY) readUser();
-    };
-    window.addEventListener("storage", onStorage);
-    return () => window.removeEventListener("storage", onStorage);
+      if (e.key === LS_USER_KEY) readUser()
+    }
+    window.addEventListener("storage", onStorage)
+    return () => window.removeEventListener("storage", onStorage)
 
-  }, []);
+  }, [])
 
   const handleLogout = () => {
-    localStorage.removeItem(LS_USER_KEY);
-    readUser();
-    navigate("/login");
-  };
+    localStorage.removeItem(LS_USER_KEY)
+    readUser()
+    navigate("/login")
+  }
 
   return (
     <header className="topbar">
@@ -83,7 +83,7 @@ function Header() {
 
       </div>
     </header>
-  );
+  )
 }
 
-export default Header;
+export default Header

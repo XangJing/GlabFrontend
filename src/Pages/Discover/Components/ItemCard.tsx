@@ -1,94 +1,86 @@
-import { useEffect, useState } from "react";
-import "./ItemCard.css";
-
-/* ================= TYPES ================= */
+import { useEffect, useState } from "react"
+import "./ItemCard.css"
 
 type Container = {
-  id: number;
-  name: string;
-  description?: string | null;
-  imageURL?: string | null;
-  owner: number;
-  currentBid?: number | null; // Bid-ID
-};
+  id: number
+  name: string
+  description?: string | null
+  imageURL?: string | null
+  owner: number
+  currentBid?: number | null
+}
 
 type Bid = {
-  id: number;
-  containerId: number;
-  userId: number;
-  value: number; // Geldbetrag
-};
+  id: number
+  containerId: number
+  userId: number
+  value: number 
+}
 
 type Props = {
-  containerId?: number;
-};
-
-/* ================= COMPONENT ================= */
+  containerId?: number
+}
 
 export default function ItemCard({ containerId }: Props) {
-  const [container, setContainer] = useState<Container | null>(null);
-  const [bidValue, setBidValue] = useState<number | null>(null);
+  const [container, setContainer] = useState<Container | null>(null)
+  const [bidValue, setBidValue] = useState<number | null>(null)
 
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     if (!containerId) {
-      setContainer(null);
-      setBidValue(null);
-      setLoading(false);
-      setError(null);
-      return;
+      setContainer(null)
+      setBidValue(null)
+      setLoading(false)
+      setError(null)
+      return
     }
 
     const load = async () => {
       try {
-        setLoading(true);
-        setError(null);
-        setBidValue(null);
+        setLoading(true)
+        setError(null)
+        setBidValue(null)
 
-        // 1) Container holen
-        const res = await fetch(`http://localhost:8080/containers/${containerId}`);
-        if (!res.ok) throw new Error("Container not found");
-        const containerData = (await res.json()) as Container;
-        setContainer(containerData);
-
-        // 2) Aktuellen Bid holen (value)
+        const res = await fetch(`http://localhost:8080/containers/${containerId}`)
+        if (!res.ok) throw new Error("Container not found")
+        const containerData = (await res.json()) as Container
+        setContainer(containerData)
+      
         if (containerData.currentBid) {
           const bidRes = await fetch(
             `http://localhost:8080/bids/${containerData.currentBid}`
-          );
-          if (!bidRes.ok) throw new Error("Bid not found");
-          const bidData = (await bidRes.json()) as Bid;
-          setBidValue(bidData.value);
+          )
+          if (!bidRes.ok) throw new Error("Bid not found")
+          const bidData = (await bidRes.json()) as Bid
+          setBidValue(bidData.value)
         }
 
-        setLoading(false);
+        setLoading(false)
       } catch (err: unknown) {
-        setContainer(null);
-        setBidValue(null);
-        setError(err instanceof Error ? err.message : "Unknown error");
-        setLoading(false);
+        setContainer(null)
+        setBidValue(null)
+        setError(err instanceof Error ? err.message : "Unknown error")
+        setLoading(false)
       }
-    };
+    }
 
-    load();
-  }, [containerId]);
+    load()
+  }, [containerId])
 
-  /* ================= STATES ================= */
 
-  if (loading) return <ItemCardSkeleton />;
-  if (error) return <div className="item-card error">{error}</div>;
+  if (loading) return <ItemCardSkeleton />
+  if (error) return <div className="item-card error">{error}</div>
 
   if (!container) {
     return (
       <div className="item-card empty">
         <div className="empty-text">No item available</div>
       </div>
-    );
+    )
   }
 
-  /* ================= RENDER ================= */
 
   return (
     <div className="item-card">
@@ -110,10 +102,8 @@ export default function ItemCard({ containerId }: Props) {
         </div>
       </div>
     </div>
-  );
+  )
 }
-
-/* ================= SKELETON ================= */
 
 function ItemCardSkeleton() {
   return (
@@ -126,5 +116,5 @@ function ItemCardSkeleton() {
         <div className="skeleton-meta" />
       </div>
     </div>
-  );
+  )
 }
