@@ -1,0 +1,34 @@
+
+.btn {
+  width: 100%;
+  height: 38px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+  margin-top: 10px;
+}
+
+.btn.primary {
+  background: #ffffff;
+  color: #4b1f3f;
+}
+
+.btn.secondary {
+  background: #2f2f47;
+  color: #ffffff;
+}
+
+.btn.text {
+  width: auto;
+  height: auto;
+  margin: 0;
+  padding: 8px 0;
+
+  background: transparent;
+  border: none;
+  box-shadow: none;
+
+  font-size: 18px;
+  font-weight: 400;
+}

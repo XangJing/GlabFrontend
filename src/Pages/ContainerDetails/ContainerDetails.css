@@ -1,4 +1,3 @@
-/* ContainerDetails.css */
 
 html, body, #root {
   margin: 0;
@@ -14,7 +13,6 @@ html, body, #root {
   box-sizing: border-box;
 }
 
-/* 2 Spalten */
 .details-inner {
   width: 100%;
   display: grid;
@@ -23,7 +21,6 @@ html, body, #root {
   align-items: start;
 }
 
-/* LEFT */
 .left-col {
   min-width: 0;
 }
@@ -142,40 +139,6 @@ html, body, #root {
 .side-value {
   color: #f7f7f7;
   font-weight: 700;
-}
-
-/* Buttons */
-.btn {
-  width: 100%;
-  height: 38px;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-  font-weight: 700;
-  margin-top: 10px;
-}
-
-.btn.primary {
-  background: #ffffff;
-  color: #4b1f3f;
-}
-
-.btn.secondary {
-  background: #2f2f47;
-  color: #ffffff;
-}
-
-/* Error */
-.error-box {
-  background: #ffe1e1;
-  border-radius: 12px;
-  padding: 14px;
-  max-width: 520px;
-}
-
-.error-text {
-  color: #7a0000;
-  margin-bottom: 10px;
 }
 
 /* Skeleton */

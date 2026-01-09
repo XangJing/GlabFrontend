@@ -44,44 +44,14 @@
   outline: none;
 }
 
-.ghost {
-  width: 100%;
-  margin: 10px 0 12px 0;
-  background: transparent;
-  border: none;
-  text-decoration: underline;
-  cursor: pointer;
-  color: #111;
-  font-size: 14px;
-}
-
 .actions {
   display: flex;
   justify-content: center;
   gap: 14px;
 }
 
-.btn {
-  height: 34px;
-  border-radius: 8px;
-  border: 1px solid rgba(0, 0, 0, 0.35);
-  cursor: pointer;
-  font-weight: 600;
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.btn.light {
-  background: #ffffff;
-  color: #111;
-}
-
-.btn.dark {
-  background: #4b1f3f;
-  color: #fff;
-  border: none;
+.backbnt{
+  justify-self: center;
 }
 
 .error {

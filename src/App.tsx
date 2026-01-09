@@ -1,9 +1,9 @@
 import { Routes, Route } from 'react-router-dom'
-import AboutUs from './Pages/AboutUs'
+import AboutUs from './Pages/AboutUs/AboutUs'
 import Discover from './Pages/Discover/Discover'
-import ContainerDetailsPage from './Pages/ContainerDetailsPage'
-import LoginPage from './Pages/LoginPage'
-import CreateContainerPage from './Pages/Create'
+import ContainerDetailsPage from './Pages/ContainerDetails/ContainerDetailsPage'
+import LoginPage from './Pages/LoginPage/LoginPage'
+import CreateContainerPage from './Pages/Create/Create'
 
 function App() {
   return (

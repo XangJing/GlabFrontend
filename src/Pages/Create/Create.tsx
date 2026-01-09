@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./CreateContainerPage.css";
+import GlabButton from "../../components/glab/GlabButton";
+
 
 type User = {
   id: number;
@@ -105,29 +107,24 @@ export default function CreateContainerPage() {
         {error && <div className="error">{error}</div>}
 
         <div className="actions">
-          <button
-            className="btn dark"
+          <GlabButton
+            text="Create"
+            variant="primary"
             onClick={onCreate}
             disabled={loading}
             type="button"
-          >
-            Create
-          </button>
-
-          <button
-            className="btn light"
+          />
+          <GlabButton
+            text="Cancel"
+            variant="secondary"
             onClick={onCancel}
             disabled={loading}
             type="button"
-          >
-            Cancel
-          </button>
+          />
         </div>
 
         {!user && (
-          <div className="hint">
-            Du musst eingeloggt sein, um zu erstellen.
-          </div>
+          <div className="hint">Du musst eingeloggt sein, um zu erstellen.</div>
         )}
       </div>
     </div>
